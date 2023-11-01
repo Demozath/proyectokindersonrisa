@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Llamada
 
-# Create your views here.
+class LlamadaListView(ListView):
+    model = Llamada
+    template_name = 'llamada_list.html'
