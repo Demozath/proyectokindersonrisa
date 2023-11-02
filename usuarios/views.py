@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import RegistroForm, LoginForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def registro(request):
@@ -24,11 +25,16 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('llamada-list')
+                return redirect('menu_principal')
             else:
                 messages.error(request, 'Nombre de usuario o contraseña incorrectos')
     else:
         form = LoginForm()
     return render(request, 'usuarios/login.html', {'form': form})
+
+@login_required
+def menu_principal(request):
+    return render(request, 'usuarios/menu_principal.html')
+
 
 
