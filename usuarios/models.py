@@ -31,7 +31,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'rut'
     REQUIRED_FIELDS = ['fecha_nacimiento', 'nombre', 'apellido', 'email']
-
     def __str__(self):
         return self.rut
 
@@ -48,3 +47,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         # Puedes agregar una lógica más detallada aquí si necesitas verificar permisos específicos
         return True
+

@@ -5,7 +5,7 @@ class RegistroForm(forms.ModelForm):
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
     fecha_nacimiento = forms.DateField(
-        input_formats=['%d/%m/%Y'],
+
         widget=forms.DateInput(format='%d/%m/%Y', attrs={'type': 'date'}),
         label='Fecha de nacimiento'
     )

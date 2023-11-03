@@ -13,11 +13,12 @@ class Llamada(models.Model):
     comentario = models.TextField()
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
+    paciente = models.ForeignKey('Paciente', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.usuario.rut} - {self.tipo.nombre}'
 
-class Pacientes(models.Model):
+class Paciente(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     rut = models.CharField(max_length=12, primary_key=True, unique=True)

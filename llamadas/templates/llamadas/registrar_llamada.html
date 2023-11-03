@@ -7,31 +7,48 @@
 <body>
     <h1>Registrar Llamada</h1>
 
+    {% if paciente_random %}
+    <p>Nombre del paciente: {{ paciente_random.nombre }} {{ paciente_random.apellido }}</p>
+    <p>Número de teléfono: {{ paciente_random.numero_telefono }}</p>
+    {% endif %}
+
+    {% if show_form %}
     <form method="post">
         {% csrf_token %}
+        <!-- Campo oculto para guardar el RUT del paciente -->
+        <input type="hidden" name="paciente_rut" value="{{ paciente_random.rut }}">
         {{ form.as_p }}
         <button type="submit">Registrar</button>
     </form>
-<div>
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            {% for tipo, datos in datos_por_tipo.items %}
-                <th>{{ tipo }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ request.user.get_full_name }}</td>
-            {% for tipo, datos in datos_por_tipo.items %}
-                <td>{{ datos.conteo }}</td>
-            {% endfor %}
-        </tr>
+    <a href="{% url 'registrar_llamada' %}" class="btn btn-primary">Generar otro número</a>
+    {% else %}
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="generar_llamada">Generar llamada</button>
+    </form>
+    {% endif %}
 
-    </tbody>
-</table>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    {% for tipo, datos in datos_por_tipo.items %}
+                        <th>{{ tipo }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ request.user.get_full_name }}</td>
+                    {% for tipo, datos in datos_por_tipo.items %}
+                        <td>{{ datos.conteo }}</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <br>
 </body>
 </html>
