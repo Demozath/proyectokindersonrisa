@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<!-- Formulario de filtro por fechas -->
 <form method="get" action="">
+    <!-- Formulario para filtrar por fechas -->
     <label for="fecha_desde">Desde:</label>
     <input type="date" id="fecha_desde" name="fecha_desde" value="{{ request.GET.fecha_desde }}">
 
@@ -19,8 +19,8 @@
     <button type="submit">Filtrar</button>
 </form>
 
-<!-- Tabla de reporte -->
 <table border="1">
+    <!-- Tabla de reporte -->
     <thead>
         <tr>
             <th>Asistente</th>
@@ -33,15 +33,24 @@
     <tbody>
         {% for usuario in usuarios %}
         <tr>
-            <td>{{ usuario.usuario__rut }}</td>
+            <!-- Aquí se muestra el nombre completo del usuario -->
+            <td>{{ usuario.nombre_completo }}</td>
             {% for tipo in tipos_llamadas %}
-                <!-- Usamos el filtro personalizado 'get' para obtener el conteo por tipo de llamada -->
                 <td>{{ usuario.conteos|get:tipo.nombre }}</td>
             {% endfor %}
             <td>{{ usuario.total }}</td>
         </tr>
         {% endfor %}
     </tbody>
+<tfoot>
+    <tr>
+        <td><strong>Total por asistente</strong></td>
+        {% for tipo in tipos_llamadas %}
+            <td></td>
+        {% endfor %}
+        <td><strong>{{ total_general }}</strong></td>
+    </tr>
+</tfoot>
 </table>
 
 </body>

@@ -66,35 +66,41 @@ def registrar_llamada(request):
 def revisar_llamadas(request):
     template_name = 'llamadas/revisar_llamadas.html'
 
-    # Obtiene los tipos de llamadas
     tipos_llamadas = TipoLlamada.objects.all()
-
-    # Obtiene los parámetros de fecha del request
     fecha_desde = request.GET.get('fecha_desde')
     fecha_hasta = request.GET.get('fecha_hasta')
 
-    # Filtra las llamadas por rango de fecha si ambos parámetros están presentes
     if fecha_desde and fecha_hasta:
         fecha_desde = make_aware(datetime.strptime(fecha_desde, '%Y-%m-%d'))
         fecha_hasta = make_aware(datetime.strptime(fecha_hasta, '%Y-%m-%d'))
-
         fecha_hasta += timedelta(days=1) - timedelta(seconds=1)
         llamadas = Llamada.objects.filter(fecha__range=(fecha_desde, fecha_hasta))
     else:
         llamadas = Llamada.objects.all()
 
-    # Crea un QuerySet que contiene los usuarios y el conteo de sus llamadas por tipo
-    usuarios = llamadas.values('usuario__rut').annotate(total=Count('id')).order_by('-total')
+    usuarios_conteos = llamadas.values(
+        'usuario__rut'
+    ).annotate(total=Count('id')).order_by('-total')
 
-    # Preparar la información para la tabla por cada usuario
-    for usuario in usuarios:
-        # Asignar el conteo de cada tipo de llamada a cada usuario
-        usuario['conteos'] = {tipo.nombre: llamadas.filter(usuario__rut=usuario['usuario__rut'], tipo=tipo).count() for
-                              tipo in tipos_llamadas}
+    usuarios = []
+    for usuario_conteo in usuarios_conteos:
+        usuario_rut = usuario_conteo['usuario__rut']
+        usuario = CustomUser.objects.get(rut=usuario_rut)
+        usuario_conteo['nombre_completo'] = usuario.get_full_name()
+        usuario_conteo['conteos'] = {
+            tipo.nombre: llamadas.filter(
+                usuario__rut=usuario_rut, tipo=tipo
+            ).count() for tipo in tipos_llamadas
+        }
+        usuarios.append(usuario_conteo)
 
+    total_general = sum(usuario['total'] for usuario in usuarios)
     context = {
         'usuarios': usuarios,
         'tipos_llamadas': tipos_llamadas,
+        'total_general': total_general,  # Agregar esto al contexto
     }
+
+
 
     return render(request, template_name, context)
