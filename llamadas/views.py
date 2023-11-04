@@ -1,9 +1,12 @@
 from django.views.generic import ListView
-from .models import Llamada, TipoLlamada, Paciente
+from .models import Llamada, TipoLlamada, Paciente, CustomUser
 from .forms import LlamadaForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.utils.timezone import datetime, timedelta
+from django.db.models import Count
+from django.utils.timezone import make_aware
+
 
 
 class LlamadaListView(ListView):
@@ -58,3 +61,40 @@ def registrar_llamada(request):
         'datos_por_tipo': datos_por_tipo
     }
     return render(request, 'llamadas/registrar_llamada.html', context)
+
+
+def revisar_llamadas(request):
+    template_name = 'llamadas/revisar_llamadas.html'
+
+    # Obtiene los tipos de llamadas
+    tipos_llamadas = TipoLlamada.objects.all()
+
+    # Obtiene los parámetros de fecha del request
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+
+    # Filtra las llamadas por rango de fecha si ambos parámetros están presentes
+    if fecha_desde and fecha_hasta:
+        fecha_desde = make_aware(datetime.strptime(fecha_desde, '%Y-%m-%d'))
+        fecha_hasta = make_aware(datetime.strptime(fecha_hasta, '%Y-%m-%d'))
+
+        fecha_hasta += timedelta(days=1) - timedelta(seconds=1)
+        llamadas = Llamada.objects.filter(fecha__range=(fecha_desde, fecha_hasta))
+    else:
+        llamadas = Llamada.objects.all()
+
+    # Crea un QuerySet que contiene los usuarios y el conteo de sus llamadas por tipo
+    usuarios = llamadas.values('usuario__rut').annotate(total=Count('id')).order_by('-total')
+
+    # Preparar la información para la tabla por cada usuario
+    for usuario in usuarios:
+        # Asignar el conteo de cada tipo de llamada a cada usuario
+        usuario['conteos'] = {tipo.nombre: llamadas.filter(usuario__rut=usuario['usuario__rut'], tipo=tipo).count() for
+                              tipo in tipos_llamadas}
+
+    context = {
+        'usuarios': usuarios,
+        'tipos_llamadas': tipos_llamadas,
+    }
+
+    return render(request, template_name, context)

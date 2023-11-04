@@ -1,0 +1,48 @@
+{% load my_filters %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Revisar Llamadas</title>
+    <!-- Puedes incluir tu CSS aquí si es necesario -->
+</head>
+<body>
+
+<!-- Formulario de filtro por fechas -->
+<form method="get" action="">
+    <label for="fecha_desde">Desde:</label>
+    <input type="date" id="fecha_desde" name="fecha_desde" value="{{ request.GET.fecha_desde }}">
+
+    <label for="fecha_hasta">Hasta:</label>
+    <input type="date" id="fecha_hasta" name="fecha_hasta" value="{{ request.GET.fecha_hasta }}">
+
+    <button type="submit">Filtrar</button>
+</form>
+
+<!-- Tabla de reporte -->
+<table border="1">
+    <thead>
+        <tr>
+            <th>Asistente</th>
+            {% for tipo in tipos_llamadas %}
+                <th>{{ tipo.nombre }}</th>
+            {% endfor %}
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.usuario__rut }}</td>
+            {% for tipo in tipos_llamadas %}
+                <!-- Usamos el filtro personalizado 'get' para obtener el conteo por tipo de llamada -->
+                <td>{{ usuario.conteos|get:tipo.nombre }}</td>
+            {% endfor %}
+            <td>{{ usuario.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

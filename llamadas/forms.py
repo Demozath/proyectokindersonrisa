@@ -6,3 +6,6 @@ class LlamadaForm(forms.ModelForm):
         model = Llamada
         fields = ['tipo', 'comentario']
 
+class FilterForm(forms.Form):
+    desde = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    hasta = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
