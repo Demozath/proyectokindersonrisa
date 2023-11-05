@@ -95,12 +95,15 @@ def revisar_llamadas(request):
         usuarios.append(usuario_conteo)
 
     total_general = sum(usuario['total'] for usuario in usuarios)
+
+    # Calcula totales por tipo de llamada
+    total_por_tipo = {tipo.nombre: llamadas.filter(tipo=tipo).count() for tipo in tipos_llamadas}
+
     context = {
         'usuarios': usuarios,
         'tipos_llamadas': tipos_llamadas,
-        'total_general': total_general,  # Agregar esto al contexto
+        'total_general': total_general,
+        'total_por_tipo': total_por_tipo,
     }
-
-
 
     return render(request, template_name, context)

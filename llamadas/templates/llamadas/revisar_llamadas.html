@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Revisar Llamadas</title>
-    <!-- Puedes incluir tu CSS aquí si es necesario -->
+    <!-- Incluye Chart.js desde un CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -42,16 +43,54 @@
         </tr>
         {% endfor %}
     </tbody>
-<tfoot>
-    <tr>
-        <td><strong>Total por asistente</strong></td>
-        {% for tipo in tipos_llamadas %}
-            <td></td>
-        {% endfor %}
-        <td><strong>{{ total_general }}</strong></td>
-    </tr>
-</tfoot>
+    <tfoot>
+        <tr>
+            <td><strong>Total General</strong></td>
+            {% for tipo in tipos_llamadas %}
+                <td></td>
+            {% endfor %}
+            <td><strong>{{ total_general }}</strong></td>
+        </tr>
+    </tfoot>
 </table>
+
+<!-- Aquí empieza la sección para el gráfico -->
+<canvas id="myChart" width="200" height="30" style="max-width: 20%; height: 10%;"></canvas>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for tipo in tipos_llamadas %}'{{ tipo.nombre }}'{% if not forloop.last %},{% endif %}{% endfor %}
+            ],
+            datasets: [{
+                label: 'Número de Llamadas por Tipo',
+                data: [
+                    {% for tipo in tipos_llamadas %}{{ total_por_tipo|get:tipo.nombre }}{% if not forloop.last %},{% endif %}{% endfor %}
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    // ... otros colores
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    // ... otros colores
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
 
 </body>
 </html>
