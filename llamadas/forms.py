@@ -9,3 +9,5 @@ class LlamadaForm(forms.ModelForm):
 class FilterForm(forms.Form):
     desde = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     hasta = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+
+
