@@ -1,0 +1,32 @@
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px 0 rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 40px auto;
+        }
+        .form-title {
+            font-size: 24px;
+            color: #5d5d5d;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .btn-custom {
+            background-color: #4b0082; /* Color de fondo morado oscuro */
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #372074;
+        }
+        /* Mensajes de alerta */
+        .alert {
+            font-size: 14px;
+        }

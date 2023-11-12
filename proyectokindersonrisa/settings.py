@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios',
     'llamadas',
+    'bootstrap4',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
