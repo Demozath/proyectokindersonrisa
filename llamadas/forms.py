@@ -11,3 +11,10 @@ class FilterForm(forms.Form):
     hasta = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
 
 
+class TipoLlamadaForm(forms.ModelForm):
+    class Meta:
+        model = TipoLlamada
+        fields = ['nombre', 'activo']
+
+class CambiarEstadoTipoLlamadaForm(forms.Form):
+    estado = forms.BooleanField(required=False)

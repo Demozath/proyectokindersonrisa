@@ -1,0 +1,49 @@
+{% block content %}
+  <h2>Gestionar Tipos de Llamada</h2>
+
+  <h3>Agregar Nuevo Tipo de Llamada</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ tipo_llamada_form.nombre.label_tag }}
+    {{ tipo_llamada_form.nombre }}
+    {{ tipo_llamada_form.activo }}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+
+  <hr>
+
+  <h3>Listado de Tipos de Llamada</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tipo_llamada in tipos_llamada %}
+        <tr>
+          <td>{{ tipo_llamada.nombre }}</td>
+          <td>
+            {% if tipo_llamada.activo %}
+              Activo
+            {% else %}
+              Inactivo
+            {% endif %}
+          </td>
+          <td>
+            <form method="post">
+              {% csrf_token %}
+              {{ cambiar_estado_form.estado }}
+              <input type="hidden" name="pk" value="{{ tipo_llamada.pk }}">
+              <button type="submit" name="estado" value="True" class="btn btn-success">Activar</button>
+              <button type="submit" name="estado" value="False" class="btn btn-danger">Desactivar</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

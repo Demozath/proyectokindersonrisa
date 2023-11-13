@@ -25,8 +25,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                #return redirect('menu_principal')
-                return redirect('registrar_llamada')
+                return redirect('menu_principal')
             else:
                 messages.error(request, 'Nombre de usuario o contraseña incorrectos')
     else:
@@ -35,8 +34,9 @@ def login_view(request):
 
 @login_required
 def menu_principal(request):
-   ## return render(request, 'usuarios/menu_principal.html')
-        return render(request, 'llamadas/registrar_llamada.html')
+    is_supervisor = request.user.is_staff
+    context = {'is_supervisor': is_supervisor}
+    return render(request, 'usuarios/menu_principal.html', context)
 
 
 

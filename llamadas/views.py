@@ -1,11 +1,14 @@
 from django.views.generic import ListView
 from .models import Llamada, TipoLlamada, Paciente, CustomUser
-from .forms import LlamadaForm
-from django.shortcuts import render, redirect
+from .forms import LlamadaForm, TipoLlamadaForm, CambiarEstadoTipoLlamadaForm
 from django.contrib import messages
 from django.utils.timezone import datetime, timedelta
 from django.db.models import Count
 from django.utils.timezone import make_aware
+from django.contrib.auth.decorators import login_required, user_passes_test
+import csv
+import io
+from django.shortcuts import render, redirect, get_object_or_404
 
 
 
@@ -21,9 +24,12 @@ def registrar_llamada(request):
 
     # Obtener todas las llamadas del usuario
     llamadas = Llamada.objects.filter(usuario=request.user)
-    todos_los_tipos = TipoLlamada.objects.all()
+
+    # Obtener solo los tipos de llamada activos
+    tipos_llamada_activos = TipoLlamada.objects.filter(activo=True)
+
     datos_por_tipo = {}
-    for tipo in todos_los_tipos:
+    for tipo in tipos_llamada_activos:
         conteo = llamadas.filter(tipo=tipo).count()
         datos_por_tipo[tipo.nombre] = {'conteo': conteo}
 
@@ -107,3 +113,86 @@ def revisar_llamadas(request):
     }
 
     return render(request, template_name, context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def cargar_pacientes(request):
+    template = "supervisor/cargar_pacientes.html"
+
+    if request.method == "POST":
+        csv_file = request.FILES.get('csv_file')
+
+        if not csv_file:
+            messages.error(request, "Por favor, carga un archivo CSV.")
+            return render(request, template)
+
+        if not csv_file.name.endswith('.csv'):
+            messages.error(request, "El archivo no es un CSV.")
+            return render(request, template)
+
+        data_set = csv_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+        next(io_string)  # Saltar la cabecera
+
+        for row_number, column in enumerate(csv.reader(io_string, delimiter=',', quotechar='"')):
+            if len(column) != 5:
+                messages.error(request, f"La fila {row_number} no tiene el número correcto de columnas.")
+                continue
+
+            rut = column[2]
+            paciente, created = Paciente.objects.get_or_create(rut=rut, defaults={
+                'nombre': column[0],
+                'apellido': column[1],
+                'numero_telefono': column[3],
+            })
+
+            if created:
+                paciente.is_active = column[4].lower() in ['true', '1', 't', 'yes', 'y', 'si', 's']
+                paciente.save()
+            else:
+                paciente.nombre = column[0]
+                paciente.apellido = column[1]
+                paciente.numero_telefono = column[3]
+                paciente.save(update_fields=['nombre', 'apellido', 'numero_telefono'])
+
+        messages.success(request, "Archivo CSV procesado correctamente.")
+        return redirect('menu_principal')
+
+    return render(request, template)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def gestionar_tipos_llamada(request):
+    tipo_llamada_form = TipoLlamadaForm()
+    cambiar_estado_form = CambiarEstadoTipoLlamadaForm()
+
+    if request.method == 'POST':
+        if 'nombre' in request.POST:
+            tipo_llamada_form = TipoLlamadaForm(request.POST)
+            if tipo_llamada_form.is_valid():
+                tipo_llamada_form.save()
+                messages.success(request, 'Tipo de llamada añadido o actualizado con éxito.')
+        else:
+            cambiar_estado_form = CambiarEstadoTipoLlamadaForm(request.POST)
+            if cambiar_estado_form.is_valid():
+                pk = request.POST.get('pk')  # Obtenemos 'pk' del POST
+                estado = cambiar_estado_form.cleaned_data['estado']
+                tipo_llamada = get_object_or_404(TipoLlamada, pk=pk)
+                tipo_llamada.activo = estado
+                tipo_llamada.save()
+
+    tipos_llamada = TipoLlamada.objects.all()
+
+    return render(request, 'supervisor/gestionar_tipos_llamada.html', {
+        'tipo_llamada_form': tipo_llamada_form,
+        'cambiar_estado_form': cambiar_estado_form,
+        'tipos_llamada': tipos_llamada
+    })
+
+##def cambiar_estado_tipo_llamada(request, pk, estado):
+    ###   tipo_llamada = get_object_or_404(TipoLlamada, pk=pk)
+    ###   tipo_llamada.activo = estado
+    ###   tipo_llamada.save()
+###   return redirect('gestionar_tipos_llamada')
