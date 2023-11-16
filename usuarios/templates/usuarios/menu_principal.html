@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Menú Principal</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/menu_principal.css">
 </head>
 <body>
 <h1>Menú Principal</h1>
@@ -13,13 +14,15 @@
   <ul>
     {% if is_supervisor %}
       <li><a href="{% url 'revisar_llamadas' %}">Revisar llamadas realizadas</a></li>
-
+      <li><a href="{% url 'gestionar_tipos_llamada' %}">Gestionar tipos de llamadas</a></li>
+      <li><a href="{% url 'cargar_pacientes' %}">Carga masiva de pacientes</a></li>
     {% else %}
       <li><a href="{% url 'registrar_llamada' %}">Registro de llamadas</a></li>
     {% endif %}
-
   </ul>
 {% endif %}
+
+<li class="logout-button"><a href="/logout/">Salir</a></li>
 
 </body>
 </html>
