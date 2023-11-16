@@ -1,0 +1,89 @@
+/* Estilos para la sección de gestión de tipos de llamadas */
+h2, h3 {
+    color: #4b0082; /* Color morado oscuro */
+    text-align: center;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 2em; /* Título más grande */
+}
+
+h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.5em; /* Subtítulo más grande */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+input, select, button {
+    margin: 5px 0; /* Espacio entre los elementos del formulario */
+}
+
+.btn {
+    padding: 10px 15px; /* Padding para botones */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4b0082; /* Color morado oscuro */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #372074; /* Color morado más oscuro al pasar el ratón */
+}
+
+.btn-success {
+    background-color: #28a745; /* Color verde para el botón activar */
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Color verde oscuro al pasar el ratón */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Color rojo para el botón desactivar */
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Color rojo oscuro al pasar el ratón */
+}
+
+/* Estilos para la tabla */
+.table {
+    width: 80%;
+    margin: 20px auto; /* Centrado y con margen */
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.table th {
+    background-color: #4b0082;
+    color: white;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(71, 0, 130, 0.75), rgba(0, 0, 0, 0));
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

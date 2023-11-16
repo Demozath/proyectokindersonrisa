@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from .models import Llamada, TipoLlamada, Paciente, CustomUser
-from .forms import LlamadaForm, TipoLlamadaForm, CambiarEstadoTipoLlamadaForm
+from .forms import LlamadaForm, TipoLlamadaForm, CambiarEstadoTipoLlamadaForm, PacienteForm
 from django.contrib import messages
 from django.utils.timezone import datetime, timedelta
 from django.db.models import Count
@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 import csv
 import io
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 
 
 
@@ -118,49 +119,43 @@ def revisar_llamadas(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def cargar_pacientes(request):
-    template = "supervisor/cargar_pacientes.html"
+    if request.method == 'POST':
+        # Si el formulario de carga masiva es enviado
+        if 'csv_file' in request.FILES:
+            csv_file = request.FILES['csv_file']
+            if not csv_file.name.endswith('.csv'):
+                return JsonResponse({'error': "El archivo no es un CSV."}, status=400)
 
-    if request.method == "POST":
-        csv_file = request.FILES.get('csv_file')
+            data_set = csv_file.read().decode('UTF-8')
+            io_string = io.StringIO(data_set)
+            next(io_string)  # Saltar la cabecera
 
-        if not csv_file:
-            messages.error(request, "Por favor, carga un archivo CSV.")
-            return render(request, template)
+            for row_number, column in enumerate(csv.reader(io_string, delimiter=',', quotechar='"')):
+                _, created = Paciente.objects.update_or_create(
+                    rut=column[2],
+                    defaults={
+                        'nombre': column[0],
+                        'apellido': column[1],
+                        'numero_telefono': column[3],
+                        # Asegúrese de que el campo 'is_active' se maneja correctamente según su modelo.
+                        'is_active': column[4].strip().lower() in ['true', '1', 't', 'yes', 'y', 'si', 's']
+                    }
+                )
+            return JsonResponse({'success': "Archivo CSV procesado correctamente."})
 
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, "El archivo no es un CSV.")
-            return render(request, template)
-
-        data_set = csv_file.read().decode('UTF-8')
-        io_string = io.StringIO(data_set)
-        next(io_string)  # Saltar la cabecera
-
-        for row_number, column in enumerate(csv.reader(io_string, delimiter=',', quotechar='"')):
-            if len(column) != 5:
-                messages.error(request, f"La fila {row_number} no tiene el número correcto de columnas.")
-                continue
-
-            rut = column[2]
-            paciente, created = Paciente.objects.get_or_create(rut=rut, defaults={
-                'nombre': column[0],
-                'apellido': column[1],
-                'numero_telefono': column[3],
-            })
-
-            if created:
-                paciente.is_active = column[4].lower() in ['true', '1', 't', 'yes', 'y', 'si', 's']
-                paciente.save()
+        # Si el formulario para agregar un paciente individual es enviado
+        else:
+            paciente_form = PacienteForm(request.POST)
+            if paciente_form.is_valid():
+                paciente_form.save()
+                return JsonResponse({'success': "Paciente cargado correctamente."})
             else:
-                paciente.nombre = column[0]
-                paciente.apellido = column[1]
-                paciente.numero_telefono = column[3]
-                paciente.save(update_fields=['nombre', 'apellido', 'numero_telefono'])
+                return JsonResponse({'error': "Error al cargar el paciente. Verifique los datos."}, status=400)
 
-        messages.success(request, "Archivo CSV procesado correctamente.")
-        return redirect('menu_principal')
-
-    return render(request, template)
-
+    # Si no es un POST, se muestra el formulario normalmente
+    else:
+        paciente_form = PacienteForm()
+        return render(request, "supervisor/cargar_pacientes.html", {'paciente_form': paciente_form})
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -191,8 +186,6 @@ def gestionar_tipos_llamada(request):
         'tipos_llamada': tipos_llamada
     })
 
-##def cambiar_estado_tipo_llamada(request, pk, estado):
-    ###   tipo_llamada = get_object_or_404(TipoLlamada, pk=pk)
-    ###   tipo_llamada.activo = estado
-    ###   tipo_llamada.save()
-###   return redirect('gestionar_tipos_llamada')
+def cargar_paciente_manual(request):
+    template = "supervisor/cargar_pacientes.html"
+

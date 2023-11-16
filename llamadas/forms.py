@@ -1,5 +1,5 @@
 from django import forms
-from .models import Llamada, TipoLlamada
+from .models import Llamada, TipoLlamada, Paciente
 
 class LlamadaForm(forms.ModelForm):
     class Meta:
@@ -18,3 +18,15 @@ class TipoLlamadaForm(forms.ModelForm):
 
 class CambiarEstadoTipoLlamadaForm(forms.Form):
     estado = forms.BooleanField(required=False)
+
+
+class PacienteForm(forms.ModelForm):
+    class Meta:
+        model = Paciente
+        fields = ['nombre', 'apellido', 'rut', 'numero_telefono']
+
+    def clean_rut(self):
+        rut = self.cleaned_data['rut']
+        if Paciente.objects.filter(rut=rut).exists():
+            raise forms.ValidationError('Un paciente con este RUT ya existe.')
+        return rut

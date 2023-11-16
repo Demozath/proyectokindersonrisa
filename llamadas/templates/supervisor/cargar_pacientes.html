@@ -5,17 +5,30 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/registrar_llamada.css">
+    <title>Cargar Pacientes</title>
 </head>
 <body>
+<h1>Cargar Pacientes</h1>
+<p>Para realizar la carga masiva de pacientes debe realizarlo desde un archivo excel colocando en la parte superior de cada columna "Nombre", "Apellido", "Numero de teléfono"
+</p>
+
 {% block content %}
-  <h2>Cargar Pacientes</h2>
-  <form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <p>Seleccione el archivo CSV con los datos de los pacientes:</p>
     <input type="file" name="csv_file" accept=".csv">
     <button type="submit">Cargar</button>
-  </form>
+</form>
+    <h1>Agregar Paciente de Forma Manual</h1>
+<form method="post" novalidate>
+    {% csrf_token %}
+    {{ paciente_form.as_p }}
+    <button type="submit">Guardar Paciente</button>
+</form>
 {% endblock %}
+
 </body>
 </html>
+
 
