@@ -2,21 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="../static/styles/login.css">
+        <link rel="stylesheet" type="text/css" href="../static/styles/registrar_llamada.css">
     <title>Registrar Llamada</title>
 </head>
 <body>
     <h1>Registrar Llamada</h1>
 
     {% if paciente_random %}
-    <p>Nombre del paciente: {{ paciente_random.nombre }} {{ paciente_random.apellido }}</p>
-    <p>Número de teléfono: {{ paciente_random.numero_telefono }}</p>
+    <p class="detalle-paciente">
+        <span>Nombre del paciente: {{ paciente_random.nombre }} {{ paciente_random.apellido }}</span>
+    </p>
+    <p class="detalle-paciente">
+        <span>Número de teléfono: {{ paciente_random.numero_telefono }}</span>
+    </p>
     {% endif %}
 
     {% if show_form %}
     <form method="post">
         {% csrf_token %}
-        <!-- Campo oculto para guardar el RUT del paciente -->
         <input type="hidden" name="paciente_rut" value="{{ paciente_random.rut }}">
         {{ form.as_p }}
         <button type="submit">Registrar</button>
@@ -28,7 +31,6 @@
         <button type="submit" name="generar_llamada">Generar llamada</button>
     </form>
     {% endif %}
-
     <div>
         <table>
             <thead>
@@ -49,7 +51,6 @@
             </tbody>
         </table>
     </div>
-
     <br>
 </body>
 </html>

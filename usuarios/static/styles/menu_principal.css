@@ -50,10 +50,10 @@ li:last-child {
     margin-top: 20px;
 }
 
-/* Asegurar que el botón de salir no herede estilos de lista */
+
 .logout-button {
-    list-style: none; /* Aplica si el botón de salir tiene su propio li */
-    padding: 0; /* Aplica si el botón de salir tiene su propio li */
+    list-style: none;
+    padding: 0;
 }
 .image-container {
     display: flex;

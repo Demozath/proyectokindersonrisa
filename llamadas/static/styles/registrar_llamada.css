@@ -1,82 +1,69 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  padding: 20px;
-}
+/* Agrega esto a tu archivo login.css o crea un nuevo archivo de estilos si prefieres separarlos */
 
+/* Estilos para el encabezado */
 h1 {
-  color: #333;
-  text-align: center;
+    color: #4b0082; /* Usando el mismo color morado oscuro */
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #555;
-}
-
-form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-input[type="text"],
-input[type="tel"],
-input[type="email"],
-input[type="password"],
-input[type="hidden"],
-select,
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
-}
-
-button, a.btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #800080; /* Color púrpura */
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover, a.btn:hover {
-  background-color: #660066; /* Un púrpura más oscuro para el estado hover */
-}
-
+/* Estilos para la tabla */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
+    border-collapse: collapse;
+    width: 100%; /* Ajusta al ancho del contenedor */
+    margin: 20px auto; /* Centrado y con margen arriba y abajo */
 }
 
 th, td {
-  text-align: left;
-  padding: 8px;
+    border: 1px solid #ddd; /* Borde suave */
+    text-align: left;
+    padding: 8px;
 }
 
 th {
-  background-color: #f2f2f2;
+    background-color: #4b0082; /* Fondo morado oscuro para los encabezados de columna */
+    color: white; /* Texto blanco para contraste */
 }
 
-tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
+/* Estilos para los botones */
+button, .btn.btn-primary {
+    background-color: #4b0082; /* Color de fondo morado oscuro */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
+
+button:hover, .btn.btn-primary:hover {
+    background-color: #372074; /* Color morado más oscuro al pasar el ratón */
+}
+
+/* Estilos para los formularios */
+form {
+    margin: 20px auto; /* Centrado con margen arriba y abajo */
+    width: fit-content; /* Se ajusta al contenido */
+}
+
+/* Estilos para los párrafos de información del paciente */
+p {
+    text-align: center;
+    margin: 10px 0;
+}
+.detalle-paciente {
+    font-family: 'Arial', sans-serif; /* O la fuente que prefieras */
+    color: #333; /* Un color oscuro para mejor lectura */
+    margin-bottom: 5px; /* Espacio debajo de cada línea */
+    color: #4b0082;
+    font-weight: bold
+}
+.etiqueta-paciente {
+    font-weight: bold; /* Negrita para las etiquetas */
+    color: #4b0082; /* Usando el color morado oscuro para destacar */
+}
+
