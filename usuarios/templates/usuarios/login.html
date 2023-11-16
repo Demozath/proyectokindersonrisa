@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +14,9 @@
 
 <div class="container">
     <div class="form-container">
+        <div class="image-container">
+            <img src="{% static 'images/images.png' %}" alt="Descripción de la imagen">
+        </div>
         <div class="form-title">Iniciar Sesión</div>
         <form method="post">
             {% csrf_token %}

@@ -55,3 +55,9 @@ li:last-child {
     list-style: none; /* Aplica si el botón de salir tiene su propio li */
     padding: 0; /* Aplica si el botón de salir tiene su propio li */
 }
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Asegúrate de darle una altura si el contenedor no la tiene */
+}
