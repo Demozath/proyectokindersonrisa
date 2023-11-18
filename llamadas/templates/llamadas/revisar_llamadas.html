@@ -41,25 +41,24 @@
     </tbody>
     <tfoot>
         <tr>
-            <td><strong>Total General</strong></td>
+            <td>Total General</td>
             {% for tipo in tipos_llamadas %}
                 <td></td>
             {% endfor %}
-            <td><strong>{{ total_general }}</strong></td>
+            <td>{{ total_general }}</td>
         </tr>
     </tfoot>
 </table>
 <tfoot>
     <tr>
-        <td><strong>Total General de</strong></td>
-        <td><strong>{{ total_general }}</strong></td>
+        <td>Total General de</td>
+        <td>{{ total_general }}</td>
     </tr>
     <tr>
-        <td><strong>llamadas tenemos un porcentaje de Éxito del</strong></td>
-        <td><strong>{{ porcentaje_exito|floatformat:2 }}%</strong></td>
+        <td>llamadas tenemos un porcentaje de Éxito del</td>
+        <td>{{ porcentaje_exito|floatformat:2 }}%</td>
     </tr>
 </tfoot>
-
 
 <canvas id="myChart" ></canvas>
 <script>
@@ -91,7 +90,5 @@
         }
     });
 </script>
-
-
 </body>
 </html>

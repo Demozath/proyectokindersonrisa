@@ -1,33 +1,28 @@
-/* Agrega esto a tu archivo login.css o crea un nuevo archivo de estilos si prefieres separarlos */
-
-/* Estilos para el encabezado */
 h1 {
-    color: #4b0082; /* Usando el mismo color morado oscuro */
+    color: #4b0082;
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* Estilos para la tabla */
 table {
     border-collapse: collapse;
-    width: 100%; /* Ajusta al ancho del contenedor */
-    margin: 20px auto; /* Centrado y con margen arriba y abajo */
+    width: 100%;
+    margin: 20px auto;
 }
 
 th, td {
-    border: 1px solid #ddd; /* Borde suave */
+    border: 1px solid #ddd;
     text-align: left;
     padding: 8px;
 }
 
 th {
-    background-color: #4b0082; /* Fondo morado oscuro para los encabezados de columna */
-    color: white; /* Texto blanco para contraste */
+    background-color: #4b0082;
+    color: white;
 }
 
-/* Estilos para los botones */
 button, .btn.btn-primary {
-    background-color: #4b0082; /* Color de fondo morado oscuro */
+    background-color: #4b0082;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -41,33 +36,32 @@ button, .btn.btn-primary {
 }
 
 button:hover, .btn.btn-primary:hover {
-    background-color: #372074; /* Color morado más oscuro al pasar el ratón */
+    background-color: #372074;
 }
 
-/* Estilos para los formularios */
 form {
-    margin: 20px auto; /* Centrado con margen arriba y abajo */
-    width: fit-content; /* Se ajusta al contenido */
+    margin: 20px auto;
+    width: fit-content;
 }
 
-/* Estilos para los párrafos de información del paciente */
 p {
     text-align: center;
     margin: 10px 0;
 }
 .detalle-paciente {
-    font-family: 'Arial', sans-serif; /* O la fuente que prefieras */
-    margin-bottom: 5px; /* Espacio debajo de cada línea */
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 5px;
     color: #4b0082;
     font-weight: bold
 }
 .etiqueta-paciente {
-    font-weight: bold; /* Negrita para las etiquetas */
-    color: #4b0082; /* Usando el color morado oscuro para destacar */
+    font-weight: bold;
+    color: #4b0082;
 }
 .detalle-llamada {
-    font-family: 'Arial', sans-serif; /* O la fuente que prefieras */
-    margin-bottom: 5px; /* Espacio debajo de cada línea */
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 5px;
     color: #ee6216;
     font-weight: bold
 }
+t
