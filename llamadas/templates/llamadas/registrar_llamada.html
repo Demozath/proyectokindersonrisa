@@ -44,7 +44,12 @@
             <button type="submit" name="generar_llamada">Generar llamada</button>
         </form>
     {% endif %}
-
+<form method="post" id="buscar-paciente-form" action="{% url 'registrar_llamada' %}">
+    {% csrf_token %}
+    <label for="buscar_rut">Buscar paciente por RUT:</label>
+    <input type="text" name="buscar_rut" id="buscar_rut" required>
+    <button type="submit" name="buscar_paciente">Buscar</button>
+</form>
     <div>
         <table>
             <thead>

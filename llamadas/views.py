@@ -23,7 +23,6 @@ def registrar_llamada(request):
     ultima_llamada = None
 
     llamadas = Llamada.objects.filter(usuario=request.user)
-
     tipos_llamada_activos = TipoLlamada.objects.filter(activo=True)
 
     datos_por_tipo = {}
@@ -38,6 +37,16 @@ def registrar_llamada(request):
                 show_form = True
             else:
                 messages.warning(request, 'No se encontraron pacientes activos.')
+        elif 'buscar_paciente' in request.POST:
+            paciente_rut = request.POST.get('buscar_rut')
+            try:
+                paciente = Paciente.objects.get(rut=paciente_rut, is_active=True)
+                paciente_random = paciente
+                show_form = True
+                ultima_llamada = Llamada.objects.filter(paciente=paciente).order_by('-fecha').first()
+            except Paciente.DoesNotExist:
+                messages.warning(request, 'No se encontró un paciente activo con ese RUT.')
+
         else:
             form = LlamadaForm(request.POST)
             paciente_rut = request.POST.get('paciente_rut')
@@ -56,14 +65,6 @@ def registrar_llamada(request):
                 return redirect('registrar_llamada')
             else:
                 messages.error(request, 'Error al registrar la llamada. Asegúrese de haber seleccionado un paciente.')
-    if request.method == 'POST':
-        if 'generar_llamada' in request.POST:
-            paciente_random = Paciente.objects.filter(is_active=True).order_by('?').first()
-            if paciente_random:
-                show_form = True
-                ultima_llamada = Llamada.objects.filter(paciente=paciente_random).order_by('-fecha').first()
-            else:
-                messages.warning(request, 'No se encontraron pacientes activos.')
 
     context = {
         'form': form,
