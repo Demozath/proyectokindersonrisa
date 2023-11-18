@@ -49,7 +49,16 @@
         </tr>
     </tfoot>
 </table>
-
+<tfoot>
+    <tr>
+        <td><strong>Total General de</strong></td>
+        <td><strong>{{ total_general }}</strong></td>
+    </tr>
+    <tr>
+        <td><strong>llamadas tenemos un porcentaje de Éxito del</strong></td>
+        <td><strong>{{ porcentaje_exito|floatformat:2 }}%</strong></td>
+    </tr>
+</tfoot>
 
 
 <canvas id="myChart" ></canvas>

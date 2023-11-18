@@ -75,7 +75,6 @@ def registrar_llamada(request):
     }
     return render(request, 'llamadas/registrar_llamada.html', context)
 
-
 def revisar_llamadas(request):
     template_name = 'llamadas/revisar_llamadas.html'
 
@@ -91,9 +90,7 @@ def revisar_llamadas(request):
     else:
         llamadas = Llamada.objects.all()
 
-    usuarios_conteos = llamadas.values(
-        'usuario__rut'
-    ).annotate(total=Count('id')).order_by('-total')
+    usuarios_conteos = llamadas.values('usuario__rut').annotate(total=Count('id')).order_by('-total')
 
     usuarios = []
     for usuario_conteo in usuarios_conteos:
@@ -109,14 +106,17 @@ def revisar_llamadas(request):
 
     total_general = sum(usuario['total'] for usuario in usuarios)
 
-    # Calcula totales por tipo de llamada
     total_por_tipo = {tipo.nombre: llamadas.filter(tipo=tipo).count() for tipo in tipos_llamadas}
+
+    citas_count = llamadas.filter(tipo__nombre='Cita').count()
+    porcentaje_exito = (citas_count / total_general * 100) if total_general > 0 else 0
 
     context = {
         'usuarios': usuarios,
         'tipos_llamadas': tipos_llamadas,
         'total_general': total_general,
         'total_por_tipo': total_por_tipo,
+        'porcentaje_exito': porcentaje_exito,
     }
 
     return render(request, template_name, context)
@@ -126,7 +126,7 @@ def revisar_llamadas(request):
 @user_passes_test(lambda u: u.is_staff)
 def cargar_pacientes(request):
     if request.method == 'POST':
-        # Si el formulario de carga masiva es enviado
+
         if 'csv_file' in request.FILES:
             csv_file = request.FILES['csv_file']
             if not csv_file.name.endswith('.csv'):
@@ -143,13 +143,11 @@ def cargar_pacientes(request):
                         'nombre': column[0],
                         'apellido': column[1],
                         'numero_telefono': column[3],
-                        # Asegúrese de que el campo 'is_active' se maneja correctamente según su modelo.
                         'is_active': column[4].strip().lower() in ['true', '1', 't', 'yes', 'y', 'si', 's']
                     }
                 )
             return JsonResponse({'success': "Archivo CSV procesado correctamente."})
 
-        # Si el formulario para agregar un paciente individual es enviado
         else:
             paciente_form = PacienteForm(request.POST)
             if paciente_form.is_valid():
