@@ -2,35 +2,49 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="../static/styles/registrar_llamada.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles/registrar_llamada.css">
     <title>Registrar Llamada</title>
 </head>
 <body>
     <h1>Registrar Llamada</h1>
 
     {% if paciente_random %}
-    <p class="detalle-paciente">
-        <span>Nombre del paciente: {{ paciente_random.nombre }} {{ paciente_random.apellido }}</span>
-    </p>
-    <p class="detalle-paciente">
-        <span>Número de teléfono: {{ paciente_random.numero_telefono }}</span>
-    </p>
+        <p class="detalle-paciente">
+            <span>Nombre del paciente: {{ paciente_random.nombre }} {{ paciente_random.apellido }}</span>
+        </p>
+        <p class="detalle-paciente">
+            <span>Rut del paciente: {{ paciente_random.rut }}</span>
+        </p>
+        <p class="detalle-paciente">
+            <span>Número de teléfono: {{ paciente_random.numero_telefono }}</span>
+        </p>
+    {% if ultima_llamada %}
+         <p class="detalle-llamada">
+             <span> Última llamada registrada: {{ ultima_llamada.fecha }}</span>
+         </p>
+         <p class="detalle-llamada">
+             <span>Resultado última llamada:  {{ ultima_llamada.tipo.nombre }}</span>
+         </p>
+        {% else %}
+            <p class="detalle-llamada">Este paciente aún no tiene llamadas registradas.</p>
+        {% endif %}
     {% endif %}
 
     {% if show_form %}
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="paciente_rut" value="{{ paciente_random.rut }}">
-        {{ form.as_p }}
-        <button type="submit">Registrar</button>
-    </form>
-    <a href="{% url 'registrar_llamada' %}" class="btn btn-primary">Generar otro número</a>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="paciente_rut" value="{{ paciente_random.rut }}">
+            {{ form.as_p }}
+            <button type="submit">Registrar</button>
+        </form>
+        <a href="{% url 'registrar_llamada' %}" class="btn btn-primary">Generar otro número</a>
     {% else %}
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="generar_llamada">Generar llamada</button>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="generar_llamada">Generar llamada</button>
+        </form>
     {% endif %}
+
     <div>
         <table>
             <thead>

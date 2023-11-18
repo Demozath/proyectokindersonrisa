@@ -57,7 +57,6 @@ p {
 }
 .detalle-paciente {
     font-family: 'Arial', sans-serif; /* O la fuente que prefieras */
-    color: #333; /* Un color oscuro para mejor lectura */
     margin-bottom: 5px; /* Espacio debajo de cada línea */
     color: #4b0082;
     font-weight: bold
@@ -66,4 +65,9 @@ p {
     font-weight: bold; /* Negrita para las etiquetas */
     color: #4b0082; /* Usando el color morado oscuro para destacar */
 }
-
+.detalle-llamada {
+    font-family: 'Arial', sans-serif; /* O la fuente que prefieras */
+    margin-bottom: 5px; /* Espacio debajo de cada línea */
+    color: #a134f8;
+    font-weight: bold
+}

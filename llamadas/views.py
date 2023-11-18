@@ -11,8 +11,6 @@ import io
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 
-
-
 class LlamadaListView(ListView):
     model = Llamada
     template_name = 'llamada_list.html'
@@ -22,11 +20,10 @@ def registrar_llamada(request):
     paciente_random = None
     show_form = False
     form = LlamadaForm()
+    ultima_llamada = None
 
-    # Obtener todas las llamadas del usuario
     llamadas = Llamada.objects.filter(usuario=request.user)
 
-    # Obtener solo los tipos de llamada activos
     tipos_llamada_activos = TipoLlamada.objects.filter(activo=True)
 
     datos_por_tipo = {}
@@ -51,7 +48,6 @@ def registrar_llamada(request):
                 llamada.paciente = paciente
                 llamada.save()
 
-                # Si la llamada es "No volver a llamar", se marca el paciente como inactivo
                 if llamada.tipo.nombre == 'No volver a llamar':
                     paciente.is_active = False
                     paciente.save()
@@ -60,12 +56,21 @@ def registrar_llamada(request):
                 return redirect('registrar_llamada')
             else:
                 messages.error(request, 'Error al registrar la llamada. Asegúrese de haber seleccionado un paciente.')
+    if request.method == 'POST':
+        if 'generar_llamada' in request.POST:
+            paciente_random = Paciente.objects.filter(is_active=True).order_by('?').first()
+            if paciente_random:
+                show_form = True
+                ultima_llamada = Llamada.objects.filter(paciente=paciente_random).order_by('-fecha').first()
+            else:
+                messages.warning(request, 'No se encontraron pacientes activos.')
 
     context = {
         'form': form,
         'paciente_random': paciente_random,
         'show_form': show_form,
-        'datos_por_tipo': datos_por_tipo
+        'datos_por_tipo': datos_por_tipo,
+        'ultima_llamada': ultima_llamada,
     }
     return render(request, 'llamadas/registrar_llamada.html', context)
 
