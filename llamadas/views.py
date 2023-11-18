@@ -15,7 +15,7 @@ class LlamadaListView(ListView):
     model = Llamada
     template_name = 'llamada_list.html'
 
-
+@login_required()
 def registrar_llamada(request):
     paciente_random = None
     show_form = False
@@ -75,6 +75,8 @@ def registrar_llamada(request):
     }
     return render(request, 'llamadas/registrar_llamada.html', context)
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def revisar_llamadas(request):
     template_name = 'llamadas/revisar_llamadas.html'
 
@@ -156,7 +158,6 @@ def cargar_pacientes(request):
             else:
                 return JsonResponse({'error': "Error al cargar el paciente. Verifique los datos."}, status=400)
 
-    # Si no es un POST, se muestra el formulario normalmente
     else:
         paciente_form = PacienteForm()
         return render(request, "supervisor/cargar_pacientes.html", {'paciente_form': paciente_form})
@@ -189,7 +190,4 @@ def gestionar_tipos_llamada(request):
         'cambiar_estado_form': cambiar_estado_form,
         'tipos_llamada': tipos_llamada
     })
-
-def cargar_paciente_manual(request):
-    template = "supervisor/cargar_pacientes.html"
 
