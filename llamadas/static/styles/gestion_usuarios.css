@@ -61,6 +61,11 @@ input[type=submit]:hover {
     background-color: #372074;
 }
 .btn-back {
+    display: block;
+    width: max-content;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #4b0082;
     color: white;
     padding: 10px 20px;
