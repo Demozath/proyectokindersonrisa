@@ -42,14 +42,14 @@
       <td>{{ user.get_full_name }}</td>
       <td>{{ user.is_active|yesno:"Activo,Inactivo" }}</td>
       <td>
-        <!-- Botón para cambiar la contraseña -->
+
         <form method="post" action="{% url 'gestion_usuarios' %}">
           {% csrf_token %}
           <input type="hidden" name="user_rut" value="{{ user.rut }}">
           <input type="password" name="new_password" placeholder="Nueva contraseña">
           <input type="submit" name="change_password" value="Cambiar contraseña">
         </form>
-        <!-- Botón para activar/desactivar usuario -->
+
         <form method="post" action="{% url 'gestion_usuarios' %}">
           {% csrf_token %}
           <input type="hidden" name="user_rut" value="{{ user.rut }}">

@@ -201,18 +201,17 @@ def gestionar_tipos_llamada(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def pacientes_no_llamar(request):
-    if request.method == 'POST' and 'rut_paciente' in request.POST:
+    if request.method == 'POST':
         # Aquí asumimos que envías el RUT del paciente a través de un campo oculto en el formulario
         rut_paciente = request.POST.get('rut_paciente')
         paciente = get_object_or_404(Paciente, rut=rut_paciente)
-        paciente.is_active = True
+        paciente.is_active = True  # Cambiar el estado de is_active a True para reactivar
         paciente.save()
         messages.success(request, f'El paciente {paciente.nombre} ha sido reactivado.')
+        return redirect('pacientes_no_llamar')  # Redireccionar para evitar reenvío de formulario
 
     pacientes_inactivos = Paciente.objects.filter(is_active=False)
     return render(request, 'supervisor/pacientes_no_llamar.html', {'pacientes_inactivos': pacientes_inactivos})
-
-User = get_user_model()  # Obtener el modelo de usuario personalizado
 
 
 @login_required
