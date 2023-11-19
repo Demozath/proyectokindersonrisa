@@ -76,7 +76,6 @@ def registrar_llamada(request):
     return render(request, 'llamadas/registrar_llamada.html', context)
 
 @login_required
-@user_passes_test(lambda u: u.is_staff)
 def revisar_llamadas(request):
     template_name = 'llamadas/revisar_llamadas.html'
 
@@ -191,3 +190,16 @@ def gestionar_tipos_llamada(request):
         'tipos_llamada': tipos_llamada
     })
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def pacientes_no_llamar(request):
+    if request.method == 'POST' and 'rut_paciente' in request.POST:
+        # Aquí asumimos que envías el RUT del paciente a través de un campo oculto en el formulario
+        rut_paciente = request.POST.get('rut_paciente')
+        paciente = get_object_or_404(Paciente, rut=rut_paciente)
+        paciente.is_active = True
+        paciente.save()
+        messages.success(request, f'El paciente {paciente.nombre} ha sido reactivado.')
+
+    pacientes_inactivos = Paciente.objects.filter(is_active=False)
+    return render(request, 'supervisor/pacientes_no_llamar.html', {'pacientes_inactivos': pacientes_inactivos})
