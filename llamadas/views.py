@@ -10,6 +10,14 @@ import csv
 import io
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect
+from .models import CustomUser
+from django.contrib.auth.hashers import make_password
+from django.contrib import messages
+
+
+
 
 class LlamadaListView(ListView):
     model = Llamada
@@ -203,3 +211,29 @@ def pacientes_no_llamar(request):
 
     pacientes_inactivos = Paciente.objects.filter(is_active=False)
     return render(request, 'supervisor/pacientes_no_llamar.html', {'pacientes_inactivos': pacientes_inactivos})
+
+User = get_user_model()  # Obtener el modelo de usuario personalizado
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def gestion_usuarios(request):
+    users = CustomUser.objects.all()
+
+    if request.method == 'POST':
+        user_rut = request.POST.get('user_rut')
+        user = get_object_or_404(CustomUser, rut=user_rut)
+
+        if 'change_password' in request.POST:
+            new_password = request.POST.get('new_password')
+            user.set_password(new_password)
+            user.save()
+            messages.success(request, f'Contraseña actualizada para {user.get_full_name()}.')
+
+        elif 'toggle_active' in request.POST:
+            user.is_active = not user.is_active
+            user.save()
+            status = 'activado' if user.is_active else 'desactivado'
+            messages.success(request, f'Usuario {user.get_full_name()} ha sido {status}.')
+
+    return render(request, 'supervisor/gestion_usuarios.html', {'users': users})

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../static/styles/gestion_usuarios.css">
+
+    <title>Gestion de usuarios</title>
+</head>
+<body>
+
+</body>
+</html>
+{% load static %}
+
+{% block content %}
+<h1>Gestión de Usuarios</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>RUT</th>
+      <th>Nombre</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.rut }}</td>
+      <td>{{ user.get_full_name }}</td>
+      <td>{{ user.is_active|yesno:"Activo,Inactivo" }}</td>
+      <td>
+        <!-- Botón para cambiar la contraseña -->
+        <form method="post" action="{% url 'gestion_usuarios' %}">
+          {% csrf_token %}
+          <input type="hidden" name="user_rut" value="{{ user.rut }}">
+          <input type="password" name="new_password" placeholder="Nueva contraseña">
+          <input type="submit" name="change_password" value="Cambiar contraseña">
+        </form>
+        <!-- Botón para activar/desactivar usuario -->
+        <form method="post" action="{% url 'gestion_usuarios' %}">
+          {% csrf_token %}
+          <input type="hidden" name="user_rut" value="{{ user.rut }}">
+          <input type="submit" name="toggle_active" value="{{ user.is_active|yesno:'Desactivar,Activar' }}">
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No hay usuarios para mostrar.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

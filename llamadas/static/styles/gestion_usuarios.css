@@ -1,0 +1,62 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    color: #4b0082;
+    text-align: center;
+}
+
+.alert {
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    color: #5d5d5d;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+    text-align: center;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #4b0082;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+input[type=password], input[type=submit] {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+input[type=submit] {
+    color: white;
+    background-color: #4b0082;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #372074;
+}
