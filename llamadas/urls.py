@@ -9,10 +9,7 @@ urlpatterns = [
     path('cargar_pacientes/', cargar_pacientes, name='cargar_pacientes'),
     path('gestionar_tipos_llamada/', gestionar_tipos_llamada, name='gestionar_tipos_llamada'),
     path('pacientes_no_llamar/', pacientes_no_llamar, name='pacientes_no_llamar'),
-    path('gestion_usuarios/', gestion_usuarios, name='gestion_usuarios')
-
-
-
+    path('gestion_usuarios/', gestion_usuarios, name='gestion_usuarios'),
 
 
 ]
