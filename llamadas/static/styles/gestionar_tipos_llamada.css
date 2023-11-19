@@ -87,3 +87,14 @@ hr {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.btn-back {
+    background-color: #4b0082;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-back:hover {
+    background-color: #372074;
+}

@@ -4,17 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="../static/styles/registro.css">
-    <title>Document</title>
+    {% load static %}  <!-- Asegúrate de cargar las etiquetas estáticas -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/registro.css' %}">
+    <title>Registro</title>
 </head>
 <body>
-{% block content %}
-  <form method="post">
-    <h2>Registro</h2>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Registrar</button>
-  </form>
-{% endblock %}
+
+<div class="form-container">
+    {% block content %}
+        <form method="post">
+            {% csrf_token %}
+            <h2>Registro</h2>
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Registrar</button>
+                <a href="{% url 'login' %}" class="btn-salir">Ingresar</a>
+            </div>
+        </form>
+    {% endblock %}
+</div>
+
 </body>
 </html>

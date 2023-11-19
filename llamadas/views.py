@@ -1,27 +1,15 @@
-from django.views.generic import ListView
-from .models import Llamada, TipoLlamada, Paciente, CustomUser
+from .models import Llamada, TipoLlamada, Paciente
 from .forms import LlamadaForm, TipoLlamadaForm, CambiarEstadoTipoLlamadaForm, PacienteForm
-from django.contrib import messages
 from django.utils.timezone import datetime, timedelta
 from django.db.models import Count
 from django.utils.timezone import make_aware
 from django.contrib.auth.decorators import login_required, user_passes_test
-import csv
-import io
-from django.shortcuts import render, redirect, get_object_or_404
+import csv, io
+from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from .models import CustomUser
-from django.contrib.auth.hashers import make_password
 from django.contrib import messages
-
-
-
-
-class LlamadaListView(ListView):
-    model = Llamada
-    template_name = 'llamada_list.html'
 
 @login_required()
 def registrar_llamada(request):
@@ -84,6 +72,7 @@ def registrar_llamada(request):
     return render(request, 'llamadas/registrar_llamada.html', context)
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def revisar_llamadas(request):
     template_name = 'llamadas/revisar_llamadas.html'
 
@@ -129,7 +118,6 @@ def revisar_llamadas(request):
     }
 
     return render(request, template_name, context)
-
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)

@@ -17,16 +17,42 @@
             text-align: center;
         }
         .btn-custom {
-            background-color: #4b0082; /* Color de fondo morado oscuro */
+            background-color: #4b0082;
             border: none;
             color: white;
             padding: 10px 25px;
             transition: background-color 0.3s ease;
-        }
-        .btn-custom:hover {
-            background-color: #372074;
+            cursor:pointer;
         }
 
         .alert {
             font-size: 14px;
+        }
+         .btn-registro {
+            background-color: #4b0082;
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            transition: background-color 0.3s ease;
+             text-decoration: none;
+            cursor:pointer;
+        }
+         .button-container {
+            display: flex;
+            justify-content: space-between; /* Esto alineará los botones en los extremos del contenedor */
+        }
+
+        .btn-custom, .btn-registro {
+            width: calc(50% - 10px); /* Esto dará a cada botón la mitad del ancho del contenedor */
+            padding: 10px; /* Ajusta el padding si es necesario */
+            /* ... otros estilos que ya tienes para los botones ... */
+        }
+
+        /* Si necesitas más espacio entre los botones, ajusta el margen aquí */
+        .btn-custom {
+            margin-right: 5px; /* Espacio entre los botones */
+        }
+
+        .btn-registro {
+            margin-left: 5px; /* Espacio entre los botones */
         }

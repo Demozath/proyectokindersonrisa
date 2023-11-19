@@ -8,23 +8,29 @@ body {
   margin: 0;
 }
 
+.form-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Ajusta al ancho que prefieras */
+  position: relative; /* Para posicionar absolutamente el botón 'Salir' */
+}
+.form-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Ajusta al ancho que prefieras */
+  position: relative; /* Para posicionar absolutamente el botón 'Salir' */
+}
+
 h2 {
   text-align: center;
   color: #333;
   margin-bottom: 20px; /* Espacio debajo del título */
 }
 
-form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px; /* Ajusta al ancho que prefieras */
-}
-
-form p {
-  margin-bottom: 15px; /* Espacio entre campos */
-}
 
 input[type="text"],
 input[type="password"],
@@ -38,18 +44,38 @@ input[type="date"] {
   box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
 
-button {
-  width: 100%;
+button, .btn-primary, .btn-salir {
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background-color: #800080; /* Color púrpura */
+  background-color: #800080;
   color: white;
+  font-weight: bold;
   cursor: pointer;
+  text-decoration: none;
   font-size: 16px;
-  margin-top: 10px; /* Espacio antes del botón */
+  margin-top: 10px;
 }
 
-button:hover {
-  background-color: #660066; /* Un púrpura más oscuro para el estado hover */
+.btn-salir {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #800080;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.btn-salir:hover {
+  background-color: #4b0082;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #4b0082;
+  color: white;
 }

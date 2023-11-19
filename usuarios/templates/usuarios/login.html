@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Registro Llamadas - Kinder Sonrisa</title>
-    <link rel="stylesheet" type="text/css" href="../static/styles/login.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
 </head>
 <body>
 
@@ -21,7 +20,10 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-custom btn-block">Iniciar sesión</button>
+            <div class="button-container">
+                <button type="submit" class="btn btn-custom">Iniciar sesión</button>
+                <a href="{% url 'registro' %}" class="btn btn-registro">Registrarse</a>
+            </div>
         </form>
         {% if messages %}
             <div class="messages mt-4">
@@ -32,8 +34,6 @@
         {% endif %}
     </div>
 </div>
-
-
 
 </body>
 </html>
