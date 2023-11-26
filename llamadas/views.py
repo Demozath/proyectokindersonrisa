@@ -74,7 +74,7 @@ def registrar_llamada(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def revisar_llamadas(request):
-    template_name = 'llamadas/revisar_llamadas.html'
+    template_name = 'supervisor/revisar_llamadas.html'
 
     tipos_llamadas = TipoLlamada.objects.all()
     fecha_desde = request.GET.get('fecha_desde')
@@ -120,7 +120,6 @@ def revisar_llamadas(request):
     return render(request, template_name, context)
 
 @login_required
-@user_passes_test(lambda u: u.is_staff)
 def cargar_pacientes(request):
     if request.method == 'POST':
 
@@ -131,7 +130,7 @@ def cargar_pacientes(request):
 
             data_set = csv_file.read().decode('UTF-8')
             io_string = io.StringIO(data_set)
-            next(io_string)  # Saltar la cabecera
+            next(io_string)
 
             for row_number, column in enumerate(csv.reader(io_string, delimiter=',', quotechar='"')):
                 _, created = Paciente.objects.update_or_create(
