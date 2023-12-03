@@ -1,19 +1,29 @@
-/* Estilos para la sección de gestión de tipos de llamadas */
+body {
+    background-color: #f4f4f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #5d5d5d;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
 h2, h3 {
-    color: #4b0082; /* Color morado oscuro */
+    color: #4b0082;
     text-align: center;
 }
 
 h2 {
     margin-top: 20px;
     margin-bottom: 10px;
-    font-size: 2em; /* Título más grande */
+    font-size: 2em;
 }
 
 h3 {
     margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 1.5em; /* Subtítulo más grande */
+    font-size: 1.5em;
 }
 
 form {
@@ -24,11 +34,11 @@ form {
 }
 
 input, select, button {
-    margin: 5px 0; /* Espacio entre los elementos del formulario */
+    margin: 5px 0;
 }
 
 .btn {
-    padding: 10px 15px; /* Padding para botones */
+    padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -36,36 +46,36 @@ input, select, button {
 }
 
 .btn-primary {
-    background-color: #4b0082; /* Color morado oscuro */
+    background-color: #4b0082;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #372074; /* Color morado más oscuro al pasar el ratón */
+    background-color: #372074;
 }
 
 .btn-success {
-    background-color: #28a745; /* Color verde para el botón activar */
+    background-color: #28a745;
     color: white;
 }
 
 .btn-success:hover {
-    background-color: #218838; /* Color verde oscuro al pasar el ratón */
+    background-color: #218838;
 }
 
 .btn-danger {
-    background-color: #dc3545; /* Color rojo para el botón desactivar */
+    background-color: #dc3545;
     color: white;
 }
 
 .btn-danger:hover {
-    background-color: #c82333; /* Color rojo oscuro al pasar el ratón */
+    background-color: #c82333;
 }
 
-/* Estilos para la tabla */
+
 .table {
     width: 80%;
-    margin: 20px auto; /* Centrado y con margen */
+    margin: 20px auto;
     border-collapse: collapse;
 }
 

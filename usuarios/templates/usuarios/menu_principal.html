@@ -19,8 +19,9 @@
       <li><a href="{% url 'gestion_usuarios' %}">Administración de usuarios</a></li>
     {% else %}
       <li><a href="{% url 'registrar_llamada' %}">Registro de llamadas</a></li>
-      <li><a href="{% url 'cargar_pacientes' %}">Carga masiva de pacientes</a></li>
+
     {% endif %}
+  <li><a href="{% url 'cargar_pacientes' %}">Carga masiva de pacientes</a></li>
   </ul>
 {% endif %}
 
