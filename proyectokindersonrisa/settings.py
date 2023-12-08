@@ -78,17 +78,7 @@ WSGI_APPLICATION = 'proyectokindersonrisa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',
-        'NAME': 'kindersonrisa',
-        'USER': 'root',
-        'PASSWORD': 'P4Ss159753!!',
-        'PORT': '3306'
-
-    }
-}
+º
 
 
 # Password validation
