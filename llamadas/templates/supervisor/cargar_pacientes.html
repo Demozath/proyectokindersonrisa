@@ -7,35 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="../static/styles/registrar_llamada.css">
     <title>Cargar Pacientes</title>
+    <style>
+        /* Aquí puedes agregar estilos adicionales si es necesario */
+    </style>
 </head>
 <body>
-<h1>Cargar Pacientes</h1>
-<p>
-    La carga masiva de pacientes debe ser cargada en formato CSV.
-</p>
-<p>
-    Los nombres de las columnas deben ser "Nombre", "Apellido", "Rut", "numero_telefono" e "is_active", este último debe tener a todos con un "1"
-</p>
-
-{% block content %}
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <p>Seleccione el archivo CSV con los datos de los pacientes:</p>
-    <input type="file" name="csv_file" accept=".csv">
-    <button type="submit">Cargar</button>
-</form>
-    <h1>Agregar Paciente de Forma Manual</h1>
-<form method="post" novalidate>
-    {% csrf_token %}
-    {{ paciente_form.as_p }}
-    <button type="submit">Guardar Paciente</button>
-</form>
-{% endblock %}
-<div class="back-to-menu">
-    <a href="{% url 'menu_principal' %}" class="btn-back">Volver al Menú Principal</a>
+<div class="container">
+    <div class="carga-masiva">
+        <h1>Cargar Pacientes</h1>
+        <p>
+            La carga masiva de pacientes debe ser cargada en formato CSV.
+        </p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Seleccione el archivo CSV con los datos de los pacientes:</p>
+            <input type="file" name="csv_file" accept=".csv">
+            <button type="submit">Cargar</button>
+        </form>
+    </div>
+    <div class="carga-manual">
+        <h1>Agregar Paciente de Forma Manual</h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ paciente_form.as_p }}
+            <button type="submit">Guardar Paciente</button>
+        </form>
+    </div>
+    <div class="back-to-menu">
+        <a href="{% url 'menu_principal' %}" class="btn-back">Volver al Menú Principal</a>
+    </div>
 </div>
-
 </body>
 </html>
-
-
