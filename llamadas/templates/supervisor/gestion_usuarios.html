@@ -55,6 +55,11 @@
           <input type="hidden" name="user_rut" value="{{ user.rut }}">
           <input type="submit" name="toggle_active" value="{{ user.is_active|yesno:'Desactivar,Activar' }}">
         </form>
+        <form method="post" action="{% url 'gestion_usuarios' %}">
+          {% csrf_token %}
+        <input type="hidden" name="user_rut" value="{{ user.rut }}">
+        <input type="submit" name="toggle_staff" value="{{ user.is_staff|yesno:'Quitar permisos, Dar permisos' }}">
+        </form>
       </td>
     </tr>
     {% empty %}

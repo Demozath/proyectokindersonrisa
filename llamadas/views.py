@@ -222,4 +222,10 @@ def gestion_usuarios(request):
             status = 'activado' if user.is_active else 'desactivado'
             messages.success(request, f'Usuario {user.get_full_name()} ha sido {status}.')
 
+        elif 'toggle_staff' in request.POST:
+            user.is_staff = not user.is_staff
+            user.save()
+            status = 'agregados' if user.is_staff else 'quitados'
+            messages.success(request, f'Permisos de Supervisor {status} para {user.get_full_name()}.')
+
     return render(request, 'supervisor/gestion_usuarios.html', {'users': users})
