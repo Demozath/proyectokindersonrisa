@@ -11,12 +11,6 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, rut, fecha_nacimiento, nombre, apellido, email, password):
-        user = self.create_user(rut, fecha_nacimiento, nombre, apellido, email, password)
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     rut = models.CharField(max_length=12, primary_key=True, unique=True)
@@ -41,10 +35,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.nombre
 
     def has_perm(self, perm, obj=None):
-        # Puedes agregar una lógica más detallada aquí si necesitas verificar permisos específicos
         return True
 
     def has_module_perms(self, app_label):
-        # Puedes agregar una lógica más detallada aquí si necesitas verificar permisos específicos
         return True
 
