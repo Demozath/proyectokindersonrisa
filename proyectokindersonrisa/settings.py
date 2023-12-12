@@ -84,8 +84,8 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'NAME': 'NOMBRE_BASE_DE_DATOS',
         'USER': 'USUARIO_BASE_DE_DATOS',
-        'PASSWORD': 'CONTRASEÑA_BASE_DE_DATOS',
-        'PORT': 'PUERTO_BASE_DE_DATOS',
+        'PASSWORD': 'PASS_BASE_DE_DATOS!!',
+        'PORT': '3306',
     }
 }
 
