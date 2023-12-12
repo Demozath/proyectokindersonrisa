@@ -32,6 +32,7 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'usuarios/login.html', {'form': form})
 
+
 @login_required
 def menu_principal(request):
     is_supervisor = request.user.is_staff

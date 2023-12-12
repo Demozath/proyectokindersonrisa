@@ -59,36 +59,45 @@
     </tr>
 </tfoot>
 
-<canvas id="myChart" ></canvas>
+<canvas id="myChart" height="400"></canvas>
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [
-                {% for tipo in tipos_llamadas %}'{{ tipo.nombre }}'{% if not forloop.last %},{% endif %}{% endfor %}
-            ],
+            labels: [{% for tipo in tipos_llamadas %}'{{ tipo.nombre }}',{% endfor %}],
             datasets: [{
                 label: 'Número de Llamadas por Tipo',
-                data: [
-                    {% for tipo in tipos_llamadas %}{{ total_por_tipo|get:tipo.nombre }}{% if not forloop.last %},{% endif %}{% endfor %}
-                ],
-                backgroundColor: [
-                    'rgba(115,9,182,0.2)',
-
-                ],
-                borderColor: [
-                    'rgb(3,12,131)',pycharm
-
-                ],
+                data: [{% for tipo in tipos_llamadas %}{{ total_por_tipo|get:tipo.nombre }},{% endfor %}],
+                backgroundColor: 'rgba(115,9,182,0.2)',
+                borderColor: 'rgb(3,12,131)',
                 borderWidth: 1
             }]
         },
         options: {
-
+            responsive: false,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 50,
+                    top: 20,
+                    bottom: 20
+                }
+            }
         }
     });
 </script>
+
+
 <div class="back-to-menu">
     <a href="{% url 'menu_principal' %}" class="btn-back">Volver al Menú Principal</a>
 </div>
